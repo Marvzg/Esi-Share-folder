@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>8 Pasos · Toma de Decisiones Basada en Datos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-dark:#010003;
+    --bg-darker:#0f0f0f;
+    --cream:#e8ddd3;
+    --cream-dark:#d4c5b9;
+    --red-accent:#a63946;
+    --red-dark:#7c2c37;
+    --gray:#9ca3af;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    font-family:'Poppins',sans-serif;
+    background:var(--bg-dark);
+    color:var(--white);
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+  }
+  ::selection{background:var(--cream); color:var(--bg-dark);}
+
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 5vw;
+    background:rgba(26,26,26,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(232,221,211,0.12);
+  }
+  .topbar .brand{display:flex; align-items:center; gap:10px; font-weight:600; font-size:13px; letter-spacing:.5px;}
+  .brand .dot{width:9px; height:9px; background:var(--red-accent); border-radius:50%;}
+  .progress-track{
+    flex:1; max-width:320px; height:4px; background:rgba(232,221,211,0.18);
+    border-radius:4px; margin:0 30px; overflow:hidden; display:none;
+  }
+  @media(min-width:760px){.progress-track{display:block;}}
+  .progress-fill{height:100%; width:0%; background:var(--red-accent); transition:width .3s ease;}
+  .nav-hint{font-size:11px; color:var(--gray); letter-spacing:.5px;}
+
+  section{ width:100%; position:relative; padding:120px 6vw 70px; }
+
+  /* HERO */
+  #hero{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(166,57,70,0.16), transparent 42%),
+      radial-gradient(circle at 85% 80%, rgba(232,221,211,0.06), transparent 40%),
+      linear-gradient(180deg, var(--bg-dark), var(--bg-darker));
+  }
+  .eyebrow{font-size:12.5px; letter-spacing:3px; text-transform:uppercase; color:var(--red-accent); font-weight:600; margin-bottom:20px;}
+  h1.hero-title{font-size:clamp(34px,6.4vw,74px); font-weight:800; line-height:1.05; letter-spacing:-1px; color:var(--cream); max-width:980px;}
+  h1.hero-title span{color:var(--red-accent);}
+  .hero-sub{margin-top:20px; max-width:600px; color:#c9c0b5; font-size:16px; font-weight:300; line-height:1.65;}
+  .hero-badges{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:32px;}
+  .mini-badge{font-size:11.5px; padding:7px 14px; border-radius:20px; border:1px solid rgba(232,221,211,0.25); color:#cbb; color:var(--cream-dark); letter-spacing:.5px;}
+  .hero-cta{margin-top:36px; display:flex; gap:14px; flex-wrap:wrap; justify-content:center;}
+  .btn{font-family:'Poppins',sans-serif; font-weight:600; font-size:14px; padding:14px 26px; border-radius:40px; cursor:pointer; border:2px solid transparent; transition:transform .2s ease;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--cream); color:var(--bg-dark);}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:rgba(232,221,211,0.35);}
+  .scroll-cue{position:absolute; bottom:30px; left:50%; transform:translateX(-50%); font-size:10.5px; letter-spacing:2px; color:var(--gray); text-transform:uppercase; display:flex; flex-direction:column; align-items:center; gap:8px; animation:bob 2s ease-in-out infinite;}
+  .scroll-cue .line{width:1px; height:32px; background:linear-gradient(var(--red-accent), transparent);}
+  @keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,8px);}}
+
+  /* CASE INTRO */
+  #case{ background:var(--bg-dark); }
+  .case-wrap{max-width:900px; margin:0 auto; text-align:center;}
+  .kicker{color:var(--red-accent); font-size:12.5px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;}
+  #case h2{font-size:clamp(26px,4vw,40px); font-weight:800; color:var(--cream); letter-spacing:-.5px;}
+  #case p{margin-top:16px; color:#b9b0a5; font-size:15px; font-weight:300; line-height:1.7; max-width:680px; margin-left:auto; margin-right:auto;}
+  .case-stats{display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-top:30px;}
+  .stat-pill{background:rgba(166,57,70,0.1); border:1px solid rgba(166,57,70,0.3); border-radius:12px; padding:14px 20px; min-width:150px;}
+  .stat-pill .n{font-size:22px; font-weight:800; color:var(--red-accent);}
+  .stat-pill .l{font-size:11px; color:var(--gray); margin-top:4px;}
+
+  /* FLOW */
+  #flow{background:var(--bg-darker); display:flex; flex-direction:column; align-items:center;}
+  .section-head{text-align:center; max-width:680px; margin:0 auto 20px;}
+  .section-head h2{font-size:clamp(26px,4vw,40px); font-weight:800; color:var(--cream);}
+  .section-head p{margin-top:12px; color:#b9b0a5; font-size:14.5px; font-weight:300;}
+
+  .flow-wrap{
+    width:100%; max-width:1200px; margin-top:40px;
+    overflow-x:auto; padding:60px 10px 30px;
+  }
+  .flow-track{
+    display:flex; align-items:center; gap:0; min-width:920px; position:relative;
+  }
+  .flow-line{
+    position:absolute; left:40px; right:40px; top:50%; height:2px;
+    background:repeating-linear-gradient(90deg, rgba(232,221,211,0.35) 0 10px, transparent 10px 18px);
+    z-index:0;
+  }
+  .flow-node{
+    flex:1; display:flex; flex-direction:column; align-items:center; position:relative; z-index:2;
+    cursor:pointer;
+  }
+  .flow-node.up{transform:translateY(-46px);}
+  .flow-node.down{transform:translateY(46px);}
+  .node-circle{
+    width:66px; height:66px; border-radius:50%;
+    background:var(--bg-dark); border:2px solid rgba(232,221,211,0.3);
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:800; color:var(--cream);
+    transition:all .25s ease; box-shadow:0 6px 18px rgba(0,0,0,0.4);
+  }
+  .flow-node:hover .node-circle{
+    border-color:var(--red-accent); background:var(--red-accent); color:var(--white); transform:scale(1.1);
+  }
+  .node-label{
+    margin-top:14px; font-size:12px; font-weight:600; text-align:center; max-width:110px; color:var(--cream-dark);
+    line-height:1.35;
+  }
+  .flow-node:hover .node-label{color:var(--cream);}
+
+  @media(max-width:760px){
+    .flow-node.up{transform:translateY(-30px);}
+    .flow-node.down{transform:translateY(30px);}
+    .node-circle{width:52px; height:52px; font-size:17px;}
+  }
+
+  /* DETAIL GRID (fallback list view under flow) */
+  .detail-hint{margin-top:36px; font-size:12.5px; color:var(--gray); letter-spacing:.5px; text-align:center;}
+
+  /* CLOSING */
+  #closing{min-height:80vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:var(--bg-dark);}
+  #closing h2{font-size:clamp(28px,4.6vw,50px); font-weight:800; max-width:760px; line-height:1.18; color:var(--cream);}
+  #closing h2 span{color:var(--red-accent);}
+  #closing p{margin-top:16px; color:#b9b0a5; font-size:14.5px; max-width:560px; font-weight:300;}
+  .footer-mini{margin-top:34px; font-size:11.5px; color:var(--gray); letter-spacing:1px;}
+
+  /* MODAL */
+  .overlay{position:fixed; inset:0; background:rgba(15,15,15,0.78); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+  .overlay.active{display:flex;}
+  .modal{background:var(--bg-darker); width:min(780px,100%); max-height:86vh; overflow-y:auto; border-radius:22px; border:1px solid rgba(232,221,211,0.12); padding:clamp(26px,5vw,52px); position:relative; animation:pop .28s cubic-bezier(.2,.9,.3,1.2);}
+  @keyframes pop{from{opacity:0; transform:scale(.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
+  .modal-close{position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%; background:rgba(232,221,211,0.1); border:none; color:var(--cream); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s ease;}
+  .modal-close:hover{background:var(--red-accent); color:var(--white);}
+  .modal .num-badge{font-size:13px; font-weight:700; color:var(--white); background:var(--red-accent); display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%; margin-bottom:20px;}
+  .modal h3{font-size:clamp(22px,3.4vw,30px); font-weight:800; margin-bottom:4px; padding-right:40px; color:var(--cream);}
+  .modal .modal-tag{color:var(--red-accent); font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:20px;}
+  .modal p{color:#c2b8ac; font-size:14.5px; line-height:1.7; font-weight:300; margin-bottom:14px;}
+  .modal .compare{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:22px 0;}
+  @media(max-width:560px){.modal .compare{grid-template-columns:1fr;}}
+  .compare .col{border-radius:14px; padding:16px 18px; font-size:13px; line-height:1.6; font-weight:300;}
+  .compare .col.without{background:rgba(232,221,211,0.04); border:1px solid rgba(232,221,211,0.12); color:#a89d90;}
+  .compare .col.with{background:rgba(166,57,70,0.1); border:1px solid rgba(166,57,70,0.3); color:var(--cream);}
+  .compare .col .lbl{font-size:10.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:8px; display:block;}
+  .compare .col.without .lbl{color:var(--gray);}
+  .compare .col.with .lbl{color:var(--red-accent);}
+  .modal-example{background:rgba(232,221,211,0.05); border-left:3px solid var(--red-accent); padding:14px 18px; border-radius:0 12px 12px 0; margin-top:18px;}
+  .modal-example .ex-lbl{font-size:10.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--red-accent); margin-bottom:8px; display:block;}
+  .modal-example p{margin-bottom:0; color:var(--cream-dark); font-size:14px;}
+  .modal-nav{display:flex; justify-content:space-between; margin-top:26px; gap:12px;}
+  .nav-btn{font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; color:var(--cream); background:rgba(232,221,211,0.08); border:1px solid rgba(232,221,211,0.2); padding:10px 18px; border-radius:30px; cursor:pointer; transition:all .2s ease;}
+  .nav-btn:hover{border-color:var(--red-accent); color:var(--red-accent);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span> Infographic Decisions</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="nav-hint">Desplázate ↓</div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="eyebrow">Marvin Morales· Infographic Decisions</div>
+  <h1 class="hero-title">8 pasos para decidir<br>con <span>datos, no con instinto.</span></h1>
+  <p class="hero-sub">De "tenemos una gran idea, desarrollémosla" a un ciclo disciplinado de contexto, KPIs, ejecución y aprendizaje. Basado en el modelo de BSC Designer.</p>
+  <div class="hero-badges">
+    <span class="mini-badge">8 pasos</span>
+    <span class="mini-badge">1 caso aplicado</span>
+    <span class="mini-badge">Andina Retail</span>
+  </div>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="scrollToId('case')">Ver el caso</button>
+    <button class="btn btn-ghost" onclick="scrollToId('flow')">Explorar los 8 pasos</button>
+  </div>
+  <div class="scroll-cue"><span class="line"></span>Scroll</div>
+</section>
+
+<!-- CASE -->
+<section id="case">
+  <div class="case-wrap">
+    <div class="kicker">El caso que recorre los 8 pasos</div>
+    <h2>Andina Retail y la fuga de clientes en la región norte</h2>
+    <p>Seis tiendas de la región norte muestran una caída sostenida de clientes activos. El comité directivo tiene dos caminos: reaccionar con una idea rápida, o recorrer el proceso de decisión basada en datos. Cada uno de los 8 pasos del diagrama siguiente muestra cómo se ejecuta en este caso real.</p>
+    <div class="case-stats">
+      <div class="stat-pill"><div class="n">-12%</div><div class="l">clientes activos, región norte</div></div>
+      <div class="stat-pill"><div class="n">35%</div><div class="l">de los ingresos depende de esa región</div></div>
+      <div class="stat-pill"><div class="n">90</div><div class="l">días del plan de acción</div></div>
+      <div class="stat-pill"><div class="n">6</div><div class="l">tiendas críticas priorizadas</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section id="flow">
+  <div class="section-head">
+    <div class="kicker">El proceso, paso a paso</div>
+    <h2>Toca cada número</h2>
+    <p>Cada nodo abre la definición del paso, cómo cambia frente al enfoque intuitivo, y su ejecución concreta en Andina Retail.</p>
+  </div>
+  <div class="flow-wrap">
+    <div class="flow-track" id="flowTrack">
+      <div class="flow-line"></div>
+    </div>
+  </div>
+  <div class="detail-hint">↑ Desliza horizontalmente si es necesario · Toca un nodo para ver el detalle</div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <h2>La disciplina, no la intuición, <span>es lo que se repite.</span></h2>
+  <p>Un buen dato no basta si no viaja por los 8 pasos: contexto, KPI, visualización, plan, prioridad, ejecución, análisis y aprendizaje.</p>
+  <div class="footer-mini">Marvin Morales· Infographic Decisions</div>
+</section>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="num-badge" id="modalNum">1</div>
+    <div class="modal-tag" id="modalTag">Paso</div>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+    <div class="modal-nav">
+      <button class="nav-btn" onclick="navStep(-1)">← Anterior</button>
+      <button class="nav-btn" onclick="navStep(1)">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    short:"Contexto",
+    title:"Comprender el contexto del negocio",
+    without:"Tenemos una gran idea, ¡desarrollémosla!",
+    withd:"Entender el contexto, la prioridad y las conexiones de causa y efecto antes de decidir nada, alineado a un mapa estratégico.",
+    example:"El comité de Andina Retail revisa el mapa estratégico corporativo y confirma que reducir la fuga de clientes es prioridad del objetivo <b>Fidelización sostenible 2027</b>. No se aprueba ninguna idea aislada sin esa conexión."
+  },
+  {
+    short:"KPIs",
+    title:"Definir KPIs",
+    without:"La idea parece interesante, busquemos algunos KPIs en internet.",
+    withd:"Diseñar indicadores a la medida del desafío: cómo se controlará el progreso (actuación) y cómo se validarán los resultados (resultado).",
+    example:"Se diseñan dos KPIs propios: <b>tasa de retención mensual por tienda</b> (resultado) y <b>contactos post-venta ejecutados</b> (actuación), con metas trimestrales claras."
+  },
+  {
+    short:"Visualizar",
+    title:"Visualizar",
+    without:"¡Hagamos algunos paneles!",
+    withd:"Poner los datos de actuación y de resultado en el mismo gráfico para detectar tendencias y anomalías con facilidad.",
+    example:"Se construye un único dashboard que cruza retención con contactos post-venta, por tienda, actualizado cada semana. Nada de hojas de cálculo paralelas."
+  },
+  {
+    short:"Plan de acción",
+    title:"Plan de acción",
+    without:"¡Tenemos un plan y un presupuesto!",
+    withd:"Formular la decisión con actividades específicas, el razonamiento detrás y el tiempo y presupuesto necesarios.",
+    example:"Se documenta: reforzar el programa de fidelización en 6 tiendas críticas, presupuesto de Q450,000, razonamiento explícito, plazo de 90 días."
+  },
+  {
+    short:"Priorizar",
+    title:"Priorizar decisiones",
+    without:"Pare de hacer lo que estaba haciendo y cambie a una nueva idea.",
+    withd:"Usar un cuadro de prioridades para comparar la nueva decisión contra otras iniciativas; la de mayor puntaje va primero.",
+    example:"Frente a otras 4 propuestas del trimestre, la iniciativa de fidelización obtiene el puntaje más alto en impacto en ingresos y tiempo de implementación, y se ejecuta primero."
+  },
+  {
+    short:"Ejecutar",
+    title:"Ejecutar",
+    without:"Tenemos un plan, alguien lo ejecutará.",
+    withd:"La persona que participó en la discusión da seguimiento al plan aprobado, usando los KPIs como puntos de control, no de castigo.",
+    example:"El gerente regional revisa el dashboard cada semana y registra hallazgos inesperados, como cambios de horario que afectaron el tráfico en dos tiendas."
+  },
+  {
+    short:"Analizar",
+    title:"Analizar resultados",
+    without:"Parece que la idea funcionó… o no funcionó para nosotros.",
+    withd:"Revisar los resultados formalmente con análisis de brechas u OKR, buscando las razones profundas del éxito o el fracaso.",
+    example:"A los 90 días la retención sube de 88% a 94% en las tiendas piloto. Se documentan las razones: el contacto post-venta fue el factor más determinante."
+  },
+  {
+    short:"Aprender",
+    title:"Bucle de aprendizaje",
+    without:"Las malas decisiones son inevitables…",
+    withd:"Revisar el proceso de decisión en sí: qué principios funcionaron, qué debe mejorar, y actualizar plantillas y estándares.",
+    example:"El comité detecta que el verdadero cuello de botella fue la comunicación entre tiendas y central, y ajusta el protocolo de reporte para la siguiente iniciativa."
+  }
+];
+
+const track = document.getElementById('flowTrack');
+steps.forEach((s,i)=>{
+  const node=document.createElement('div');
+  node.className='flow-node '+(i%2===0?'up':'down');
+  node.onclick=()=>openModal(i);
+  node.innerHTML=`<div class="node-circle">${i+1}</div><div class="node-label">${s.short}</div>`;
+  track.appendChild(node);
+});
+
+let currentStep=0;
+const overlay=document.getElementById('overlay');
+function openModal(i){ currentStep=i; renderModal(); overlay.classList.add('active'); }
+function renderModal(){
+  const s=steps[currentStep];
+  document.getElementById('modalNum').textContent=currentStep+1;
+  document.getElementById('modalTag').textContent='Paso '+(currentStep+1)+' de 8';
+  document.getElementById('modalTitle').textContent=s.title;
+  document.getElementById('modalBody').innerHTML=`
+    <div class="compare">
+      <div class="col without"><span class="lbl">Sin datos</span>${s.without}</div>
+      <div class="col with"><span class="lbl">Con datos</span>${s.withd}</div>
+    </div>
+    <div class="modal-example"><span class="ex-lbl">Ejecución en Andina Retail</span><p>${s.example}</p></div>
+  `;
+}
+function closeModal(){ overlay.classList.remove('active'); }
+function navStep(dir){ currentStep=(currentStep+dir+steps.length)%steps.length; renderModal(); }
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeModal();
+  if(overlay.classList.contains('active')){
+    if(e.key==='ArrowRight') navStep(1);
+    if(e.key==='ArrowLeft') navStep(-1);
+  }
+});
+function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+window.addEventListener('scroll', ()=>{
+  const scrollTop=window.scrollY;
+  const docHeight=document.body.scrollHeight-window.innerHeight;
+  const pct=Math.min(100,(scrollTop/docHeight)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+});
+</script>
+</body>
+</html>
