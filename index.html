@@ -8,40 +8,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#101a35;
-    --navy-2:#1c2b52;
-    --yellow:#f5b800;
-    --gray:#6b7280;
-    --gray-light:#e7e9ee;
+    --bg-dark:#1a1a1a;
+    --bg-darker:#0f0f0f;
+    --cream:#e8ddd3;
+    --cream-dark:#d4c5b9;
+    --red-accent:#a63946;
+    --red-dark:#8b3a3a;
+    --gray:#9ca3af;
+    --gray-light:#e5e7eb;
     --white:#ffffff;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html,body{
     font-family:'Poppins',sans-serif;
-    background:var(--navy);
+    background:var(--bg-dark);
     color:var(--white);
     overflow-x:hidden;
     scroll-behavior:smooth;
   }
-  ::selection{background:var(--yellow); color:var(--navy);}
+  ::selection{background:var(--cream); color:var(--bg-dark);}
 
   /* ---------- top bar ---------- */
   .topbar{
     position:fixed; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:18px 5vw;
-    background:rgba(16,26,53,0.85);
+    background:rgba(26,26,26,0.90);
     backdrop-filter:blur(8px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    border-bottom:1px solid rgba(232,221,211,0.12);
   }
   .topbar .brand{display:flex; align-items:center; gap:10px; font-weight:600; font-size:14px; letter-spacing:.5px;}
-  .brand .dot{width:9px; height:9px; background:var(--yellow); border-radius:50%;}
+  .brand .dot{width:9px; height:9px; background:var(--red-accent); border-radius:50%;}
   .progress-track{
-    flex:1; max-width:340px; height:4px; background:rgba(255,255,255,0.12);
+    flex:1; max-width:340px; height:4px; background:rgba(232,221,211,0.2);
     border-radius:4px; margin:0 30px; overflow:hidden; display:none;
   }
   @media(min-width:720px){.progress-track{display:block;}}
-  .progress-fill{height:100%; width:0%; background:var(--yellow); transition:width .3s ease;}
+  .progress-fill{height:100%; width:0%; background:var(--red-accent); transition:width .3s ease;}
   .topbar .nav-hint{font-size:12px; color:var(--gray); letter-spacing:.5px;}
 
   section{
@@ -54,21 +57,21 @@
   /* ---------- HERO ---------- */
   #hero{
     background:
-      radial-gradient(circle at 85% 15%, rgba(245,184,0,0.14), transparent 45%),
-      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+      radial-gradient(circle at 85% 15%, rgba(166,57,70,0.12), transparent 45%),
+      linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
     flex-direction:column; text-align:center;
   }
   .eyebrow{
     font-size:13px; letter-spacing:3px; text-transform:uppercase;
-    color:var(--yellow); font-weight:600; margin-bottom:22px;
+    color:var(--red-accent); font-weight:600; margin-bottom:22px;
   }
   h1.hero-title{
     font-size:clamp(38px,7vw,84px); font-weight:800; line-height:1.02;
-    letter-spacing:-1px; max-width:1000px;
+    letter-spacing:-1px; max-width:1000px; color:var(--cream);
   }
-  h1.hero-title span{color:var(--yellow);}
+  h1.hero-title span{color:var(--red-accent);}
   .hero-sub{
-    margin-top:22px; max-width:620px; color:#c7cde0; font-size:17px; font-weight:300; line-height:1.6;
+    margin-top:22px; max-width:620px; color:#c9c0b5; font-size:17px; font-weight:300; line-height:1.6;
   }
   .hero-cta{
     margin-top:44px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
@@ -79,8 +82,8 @@
     transition:transform .2s ease, box-shadow .2s ease;
   }
   .btn:hover{transform:translateY(-2px);}
-  .btn-primary{background:var(--yellow); color:var(--navy); box-shadow:0 8px 24px rgba(245,184,0,0.25);}
-  .btn-ghost{background:transparent; color:var(--white); border-color:rgba(255,255,255,0.3);}
+  .btn-primary{background:var(--cream); color:var(--bg-dark); box-shadow:0 8px 24px rgba(232,221,211,0.25);}
+  .btn-ghost{background:transparent; color:var(--cream); border-color:rgba(232,221,211,0.4);}
 
   .scroll-cue{
     position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
@@ -88,14 +91,14 @@
     display:flex; flex-direction:column; align-items:center; gap:8px;
     animation:bob 2s ease-in-out infinite;
   }
-  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(var(--yellow), transparent);}
+  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(var(--red-accent), transparent);}
   @keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,8px);}}
 
   /* ---------- MAP / OVERVIEW ---------- */
-  #map{ background:var(--navy); flex-direction:column;}
+  #map{ background:var(--bg-dark); flex-direction:column;}
   .section-head{text-align:center; max-width:700px; margin-bottom:56px;}
-  .section-head .kicker{color:var(--yellow); font-size:13px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;}
-  .section-head h2{font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:-0.5px;}
+  .section-head .kicker{color:var(--red-accent); font-size:13px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;}
+  .section-head h2{font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:-0.5px; color:var(--cream);}
   .section-head p{margin-top:14px; color:#aab1c8; font-size:15px; font-weight:300; line-height:1.6;}
 
   .step-grid{
@@ -103,97 +106,97 @@
     gap:18px; width:100%; max-width:1180px;
   }
   .step-card{
-    background:var(--navy-2);
-    border:1px solid rgba(255,255,255,0.08);
+    background:rgba(212,197,185,0.06);
+    border:1px solid rgba(232,221,211,0.15);
     border-radius:16px; padding:26px 22px;
     cursor:pointer; text-align:left; position:relative; overflow:hidden;
     transition:transform .25s ease, border-color .25s ease, background .25s ease;
   }
-  .step-card:hover{transform:translateY(-6px); border-color:var(--yellow); background:#22315c;}
+  .step-card:hover{transform:translateY(-6px); border-color:var(--red-accent); background:rgba(166,57,70,0.08);}
   .step-card .num{
-    font-size:13px; font-weight:700; color:var(--yellow); letter-spacing:2px; margin-bottom:16px; display:block;
+    font-size:13px; font-weight:700; color:var(--red-accent); letter-spacing:2px; margin-bottom:16px; display:block;
   }
-  .step-card h3{font-size:19px; font-weight:600; line-height:1.3; margin-bottom:10px;}
+  .step-card h3{font-size:19px; font-weight:600; line-height:1.3; margin-bottom:10px; color:var(--cream);}
   .step-card .tag{font-size:12px; color:var(--gray); font-weight:300;}
   .step-card .arrow{
-    position:absolute; right:20px; bottom:20px; font-size:20px; color:var(--yellow);
+    position:absolute; right:20px; bottom:20px; font-size:20px; color:var(--red-accent);
     opacity:0; transform:translateX(-6px); transition:all .25s ease;
   }
   .step-card:hover .arrow{opacity:1; transform:translateX(0);}
 
   /* ---------- EXAMPLE strip ---------- */
   #example{
-    background:linear-gradient(135deg, var(--navy-2), var(--navy));
+    background:linear-gradient(135deg, rgba(212,197,185,0.08), var(--bg-darker));
     flex-direction:column;
   }
   .example-card{
-    max-width:920px; width:100%; background:rgba(255,255,255,0.04);
-    border:1px solid rgba(255,255,255,0.08); border-radius:20px;
+    max-width:920px; width:100%; background:rgba(232,221,211,0.04);
+    border:1px solid rgba(232,221,211,0.12); border-radius:20px;
     padding:40px clamp(20px,5vw,56px);
   }
   .example-card .badge{
-    display:inline-block; background:var(--yellow); color:var(--navy);
+    display:inline-block; background:var(--red-accent); color:var(--white);
     font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
     padding:6px 14px; border-radius:20px; margin-bottom:20px;
   }
-  .example-card h3{font-size:clamp(22px,3vw,30px); font-weight:700; margin-bottom:18px; line-height:1.3;}
+  .example-card h3{font-size:clamp(22px,3vw,30px); font-weight:700; margin-bottom:18px; line-height:1.3; color:var(--cream);}
   .example-steps{display:flex; flex-direction:column; gap:14px; margin-top:24px;}
-  .ex-line{display:flex; gap:14px; align-items:flex-start; font-size:14.5px; color:#cfd4e6; font-weight:300; line-height:1.55;}
-  .ex-line b{color:var(--white); font-weight:600;}
+  .ex-line{display:flex; gap:14px; align-items:flex-start; font-size:14.5px; color:#b9b0a5; font-weight:300; line-height:1.55;}
+  .ex-line b{color:var(--cream); font-weight:600;}
   .ex-line .chip{
-    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:rgba(245,184,0,0.15);
-    color:var(--yellow); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:rgba(166,57,70,0.2);
+    color:var(--red-accent); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
   }
   .example-stat-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:28px;}
-  .stat-pill{background:rgba(245,184,0,0.08); border:1px solid rgba(245,184,0,0.25); border-radius:12px; padding:14px 18px; min-width:150px;}
-  .stat-pill .n{font-size:24px; font-weight:800; color:var(--yellow);}
-  .stat-pill .l{font-size:11.5px; color:#aab1c8; margin-top:4px;}
+  .stat-pill{background:rgba(166,57,70,0.1); border:1px solid rgba(166,57,70,0.3); border-radius:12px; padding:14px 18px; min-width:150px;}
+  .stat-pill .n{font-size:24px; font-weight:800; color:var(--red-accent);}
+  .stat-pill .l{font-size:11.5px; color:#9ca3af; margin-top:4px;}
 
   /* ---------- CLOSING ---------- */
-  #closing{flex-direction:column; text-align:center; background:var(--navy);}
-  #closing h2{font-size:clamp(30px,5vw,54px); font-weight:800; max-width:760px; line-height:1.15;}
-  #closing h2 span{color:var(--yellow);}
+  #closing{flex-direction:column; text-align:center; background:var(--bg-dark);}
+  #closing h2{font-size:clamp(30px,5vw,54px); font-weight:800; max-width:760px; line-height:1.15; color:var(--cream);}
+  #closing h2 span{color:var(--red-accent);}
   #closing p{margin-top:18px; color:#aab1c8; font-size:15px; max-width:560px; font-weight:300;}
   .footer-mini{margin-top:40px; font-size:12px; color:var(--gray); letter-spacing:1px;}
 
   /* ---------- MODAL ---------- */
   .overlay{
-    position:fixed; inset:0; background:rgba(6,9,20,0.72); backdrop-filter:blur(3px);
+    position:fixed; inset:0; background:rgba(15,15,15,0.75); backdrop-filter:blur(3px);
     display:none; align-items:center; justify-content:center; z-index:100; padding:20px;
   }
   .overlay.active{display:flex;}
   .modal{
-    background:var(--navy-2); width:min(760px, 100%); max-height:86vh; overflow-y:auto;
-    border-radius:22px; border:1px solid rgba(255,255,255,0.1);
+    background:var(--bg-darker); width:min(760px, 100%); max-height:86vh; overflow-y:auto;
+    border-radius:22px; border:1px solid rgba(232,221,211,0.12);
     padding:clamp(26px,5vw,52px); position:relative;
     animation:pop .28s cubic-bezier(.2,.9,.3,1.2);
   }
   @keyframes pop{from{opacity:0; transform:scale(.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
   .modal-close{
     position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%;
-    background:rgba(255,255,255,0.08); border:none; color:var(--white); font-size:16px; cursor:pointer;
+    background:rgba(232,221,211,0.1); border:none; color:var(--cream); font-size:16px; cursor:pointer;
     display:flex; align-items:center; justify-content:center; transition:background .2s ease;
   }
-  .modal-close:hover{background:var(--yellow); color:var(--navy);}
+  .modal-close:hover{background:var(--red-accent); color:var(--white);}
   .modal .num-badge{
-    font-size:13px; font-weight:700; color:var(--navy); background:var(--yellow);
+    font-size:13px; font-weight:700; color:var(--white); background:var(--red-accent);
     display:inline-flex; align-items:center; justify-content:center;
     width:34px; height:34px; border-radius:50%; margin-bottom:20px;
   }
-  .modal h3{font-size:clamp(24px,3.6vw,32px); font-weight:800; margin-bottom:6px; padding-right:40px;}
-  .modal .modal-tag{color:var(--yellow); font-size:12.5px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:22px;}
-  .modal p{color:#c7cde0; font-size:15px; line-height:1.75; font-weight:300; margin-bottom:16px;}
+  .modal h3{font-size:clamp(24px,3.6vw,32px); font-weight:800; margin-bottom:6px; padding-right:40px; color:var(--cream);}
+  .modal .modal-tag{color:var(--red-accent); font-size:12.5px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:22px;}
+  .modal p{color:#b9b0a5; font-size:15px; line-height:1.75; font-weight:300; margin-bottom:16px;}
   .modal .modal-quote{
-    border-left:3px solid var(--yellow); padding:4px 0 4px 18px; margin:22px 0;
-    font-size:14.5px; color:var(--white); font-weight:400; font-style:normal;
+    border-left:3px solid var(--red-accent); padding:4px 0 4px 18px; margin:22px 0;
+    font-size:14.5px; color:var(--cream); font-weight:400; font-style:normal;
   }
   .modal-nav{display:flex; justify-content:space-between; margin-top:28px; gap:12px;}
   .nav-btn{
-    font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; color:var(--white);
-    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+    font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; color:var(--cream);
+    background:rgba(232,221,211,0.08); border:1px solid rgba(232,221,211,0.2);
     padding:10px 18px; border-radius:30px; cursor:pointer; transition:all .2s ease;
   }
-  .nav-btn:hover{border-color:var(--yellow); color:var(--yellow);}
+  .nav-btn:hover{border-color:var(--red-accent); color:var(--red-accent);}
 
   @media(max-width:600px){
     .topbar{padding:14px 5vw;}
@@ -204,14 +207,14 @@
 <body>
 
 <div class="topbar">
-  <div class="brand"><span class="dot"></span> DATA STORYTELLING</div>
+  <div class="brand"><span class="dot"></span> Marvin Morales - DATA STORYTELLING</div>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   <div class="nav-hint" id="navHint">Desplázate ↓</div>
 </div>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="eyebrow">Escuela de Negocios ESI · Guía interactiva</div>
+  <div class="eyebrow">Guía interactiva  ·  Marvin Morales  ·  ESI</div>
   <h1 class="hero-title">De los datos<br>a la <span>gran historia.</span></h1>
   <p class="hero-sub">Seis pasos, tomados de BSC Designer, Gartner, Cole Nussbaumer Knaflic y las formas narrativas de Kurt Vonnegut, para convertir cualquier conjunto de datos en una historia que genere acción.</p>
   <div class="hero-cta">
@@ -250,6 +253,29 @@
 <section id="closing">
   <h2>Los datos no convencen. <span>Las historias, sí.</span></h2>
   <p>Aplica los 6 pasos la próxima vez que tengas que presentar un hallazgo: empieza por la audiencia, cierra con una recomendación.</p>
+  <p>Referencias
+
+Chavarría, I. (2022, 15 de septiembre). Data storytelling en 4 pasos. https://ignaciochavarria.co/2022/09/15/data-storytelling-en-4-pasos/
+
+Cyberclick. (2024). Data storytelling: qué es y cómo transformar tus datos en historias. https://www.cyberclick.es/numerical-blog/data-storytelling-que-es-y-como-contar-buenas-historias-con-datos
+
+Flores, G. (2026, 24 de febrero). Data storytelling: cómo presentar datos con impacto. Miss Yera. https://missyera.com/blog/data-storytelling-presentar-datos/
+
+Gartner. (2021). Impactful storytelling: Become a powerful data storyteller [Webinar]. Gartner Group.
+
+Gavilán, I. (2022). Storytelling con datos según Cole Nussbaumer Knaflic. Blue Chip. http://bluechip.ignaciogavilan.com/2022/01/hacer-storytelling-con-datos-segun-cole.html
+
+IEBS Business School. (2026). Data storytelling, qué es y cómo puede mejorar tu estrategia de contenidos. https://www.iebschool.com/hub/data-storytelling-que-es-big-data/
+
+Mailchimp. (s.f.). Data storytelling: convierte los números en historias. https://mailchimp.com/es/resources/data-storytelling/
+
+MIT Technology Review. (2016, 6 de julio). Data mining reveals the six basic emotional arcs of storytelling. https://www.technologyreview.com/2016/07/06/158961/data-mining-reveals-the-six-basic-emotional-arcs-of-storytelling/
+
+Savkín, A. (2020, 22 de agosto). Cómo tomar decisiones basadas en datos. BSC Designer. https://bscdesigner.com/es/tomar-decisiones-basadas-en-datos.htm
+
+Venngage. (2024). Cómo contar historias con datos: Data storytelling. https://es.venngage.com/blog/data-storytelling/
+
+Vonnegut, K. (2004). Shapes of stories [Conferencia]. Case Western Reserve University. https://www.youtube.com/watch?v=GOGru_4z1Vc </p>
   <div class="footer-mini">GUÍA INTERACTIVA · DATA STORYTELLING · ESI</div>
 </section>
 
