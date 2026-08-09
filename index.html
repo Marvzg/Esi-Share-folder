@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Storytelling · 6 Pasos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101a35;
+    --navy-2:#1c2b52;
+    --yellow:#f5b800;
+    --gray:#6b7280;
+    --gray-light:#e7e9ee;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    font-family:'Poppins',sans-serif;
+    background:var(--navy);
+    color:var(--white);
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+  }
+  ::selection{background:var(--yellow); color:var(--navy);}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 5vw;
+    background:rgba(16,26,53,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .topbar .brand{display:flex; align-items:center; gap:10px; font-weight:600; font-size:14px; letter-spacing:.5px;}
+  .brand .dot{width:9px; height:9px; background:var(--yellow); border-radius:50%;}
+  .progress-track{
+    flex:1; max-width:340px; height:4px; background:rgba(255,255,255,0.12);
+    border-radius:4px; margin:0 30px; overflow:hidden; display:none;
+  }
+  @media(min-width:720px){.progress-track{display:block;}}
+  .progress-fill{height:100%; width:0%; background:var(--yellow); transition:width .3s ease;}
+  .topbar .nav-hint{font-size:12px; color:var(--gray); letter-spacing:.5px;}
+
+  section{
+    min-height:100vh; width:100%;
+    display:flex; align-items:center; justify-content:center;
+    padding:110px 6vw 60px;
+    position:relative;
+  }
+
+  /* ---------- HERO ---------- */
+  #hero{
+    background:
+      radial-gradient(circle at 85% 15%, rgba(245,184,0,0.14), transparent 45%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    flex-direction:column; text-align:center;
+  }
+  .eyebrow{
+    font-size:13px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--yellow); font-weight:600; margin-bottom:22px;
+  }
+  h1.hero-title{
+    font-size:clamp(38px,7vw,84px); font-weight:800; line-height:1.02;
+    letter-spacing:-1px; max-width:1000px;
+  }
+  h1.hero-title span{color:var(--yellow);}
+  .hero-sub{
+    margin-top:22px; max-width:620px; color:#c7cde0; font-size:17px; font-weight:300; line-height:1.6;
+  }
+  .hero-cta{
+    margin-top:44px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+  }
+  .btn{
+    font-family:'Poppins',sans-serif; font-weight:600; font-size:14px;
+    padding:14px 28px; border-radius:40px; cursor:pointer; border:2px solid transparent;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--yellow); color:var(--navy); box-shadow:0 8px 24px rgba(245,184,0,0.25);}
+  .btn-ghost{background:transparent; color:var(--white); border-color:rgba(255,255,255,0.3);}
+
+  .scroll-cue{
+    position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+    font-size:11px; letter-spacing:2px; color:var(--gray); text-transform:uppercase;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    animation:bob 2s ease-in-out infinite;
+  }
+  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(var(--yellow), transparent);}
+  @keyframes bob{0%,100%{transform:translate(-50%,0);}50%{transform:translate(-50%,8px);}}
+
+  /* ---------- MAP / OVERVIEW ---------- */
+  #map{ background:var(--navy); flex-direction:column;}
+  .section-head{text-align:center; max-width:700px; margin-bottom:56px;}
+  .section-head .kicker{color:var(--yellow); font-size:13px; font-weight:600; letter-spacing:3px; text-transform:uppercase; margin-bottom:14px;}
+  .section-head h2{font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:-0.5px;}
+  .section-head p{margin-top:14px; color:#aab1c8; font-size:15px; font-weight:300; line-height:1.6;}
+
+  .step-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px; width:100%; max-width:1180px;
+  }
+  .step-card{
+    background:var(--navy-2);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px; padding:26px 22px;
+    cursor:pointer; text-align:left; position:relative; overflow:hidden;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .step-card:hover{transform:translateY(-6px); border-color:var(--yellow); background:#22315c;}
+  .step-card .num{
+    font-size:13px; font-weight:700; color:var(--yellow); letter-spacing:2px; margin-bottom:16px; display:block;
+  }
+  .step-card h3{font-size:19px; font-weight:600; line-height:1.3; margin-bottom:10px;}
+  .step-card .tag{font-size:12px; color:var(--gray); font-weight:300;}
+  .step-card .arrow{
+    position:absolute; right:20px; bottom:20px; font-size:20px; color:var(--yellow);
+    opacity:0; transform:translateX(-6px); transition:all .25s ease;
+  }
+  .step-card:hover .arrow{opacity:1; transform:translateX(0);}
+
+  /* ---------- EXAMPLE strip ---------- */
+  #example{
+    background:linear-gradient(135deg, var(--navy-2), var(--navy));
+    flex-direction:column;
+  }
+  .example-card{
+    max-width:920px; width:100%; background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08); border-radius:20px;
+    padding:40px clamp(20px,5vw,56px);
+  }
+  .example-card .badge{
+    display:inline-block; background:var(--yellow); color:var(--navy);
+    font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    padding:6px 14px; border-radius:20px; margin-bottom:20px;
+  }
+  .example-card h3{font-size:clamp(22px,3vw,30px); font-weight:700; margin-bottom:18px; line-height:1.3;}
+  .example-steps{display:flex; flex-direction:column; gap:14px; margin-top:24px;}
+  .ex-line{display:flex; gap:14px; align-items:flex-start; font-size:14.5px; color:#cfd4e6; font-weight:300; line-height:1.55;}
+  .ex-line b{color:var(--white); font-weight:600;}
+  .ex-line .chip{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:rgba(245,184,0,0.15);
+    color:var(--yellow); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;
+  }
+  .example-stat-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:28px;}
+  .stat-pill{background:rgba(245,184,0,0.08); border:1px solid rgba(245,184,0,0.25); border-radius:12px; padding:14px 18px; min-width:150px;}
+  .stat-pill .n{font-size:24px; font-weight:800; color:var(--yellow);}
+  .stat-pill .l{font-size:11.5px; color:#aab1c8; margin-top:4px;}
+
+  /* ---------- CLOSING ---------- */
+  #closing{flex-direction:column; text-align:center; background:var(--navy);}
+  #closing h2{font-size:clamp(30px,5vw,54px); font-weight:800; max-width:760px; line-height:1.15;}
+  #closing h2 span{color:var(--yellow);}
+  #closing p{margin-top:18px; color:#aab1c8; font-size:15px; max-width:560px; font-weight:300;}
+  .footer-mini{margin-top:40px; font-size:12px; color:var(--gray); letter-spacing:1px;}
+
+  /* ---------- MODAL ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(6,9,20,0.72); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:100; padding:20px;
+  }
+  .overlay.active{display:flex;}
+  .modal{
+    background:var(--navy-2); width:min(760px, 100%); max-height:86vh; overflow-y:auto;
+    border-radius:22px; border:1px solid rgba(255,255,255,0.1);
+    padding:clamp(26px,5vw,52px); position:relative;
+    animation:pop .28s cubic-bezier(.2,.9,.3,1.2);
+  }
+  @keyframes pop{from{opacity:0; transform:scale(.94) translateY(10px);} to{opacity:1; transform:scale(1) translateY(0);}}
+  .modal-close{
+    position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,0.08); border:none; color:var(--white); font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; transition:background .2s ease;
+  }
+  .modal-close:hover{background:var(--yellow); color:var(--navy);}
+  .modal .num-badge{
+    font-size:13px; font-weight:700; color:var(--navy); background:var(--yellow);
+    display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:34px; border-radius:50%; margin-bottom:20px;
+  }
+  .modal h3{font-size:clamp(24px,3.6vw,32px); font-weight:800; margin-bottom:6px; padding-right:40px;}
+  .modal .modal-tag{color:var(--yellow); font-size:12.5px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:22px;}
+  .modal p{color:#c7cde0; font-size:15px; line-height:1.75; font-weight:300; margin-bottom:16px;}
+  .modal .modal-quote{
+    border-left:3px solid var(--yellow); padding:4px 0 4px 18px; margin:22px 0;
+    font-size:14.5px; color:var(--white); font-weight:400; font-style:normal;
+  }
+  .modal-nav{display:flex; justify-content:space-between; margin-top:28px; gap:12px;}
+  .nav-btn{
+    font-family:'Poppins',sans-serif; font-size:13px; font-weight:600; color:var(--white);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+    padding:10px 18px; border-radius:30px; cursor:pointer; transition:all .2s ease;
+  }
+  .nav-btn:hover{border-color:var(--yellow); color:var(--yellow);}
+
+  @media(max-width:600px){
+    .topbar{padding:14px 5vw;}
+    section{padding:100px 6vw 50px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span> DATA STORYTELLING</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="nav-hint" id="navHint">Desplázate ↓</div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="eyebrow">Escuela de Negocios ESI · Guía interactiva</div>
+  <h1 class="hero-title">De los datos<br>a la <span>gran historia.</span></h1>
+  <p class="hero-sub">Seis pasos, tomados de BSC Designer, Gartner, Cole Nussbaumer Knaflic y las formas narrativas de Kurt Vonnegut, para convertir cualquier conjunto de datos en una historia que genere acción.</p>
+  <div class="hero-cta">
+    <button class="btn btn-primary" onclick="scrollToId('map')">Explorar los 6 pasos</button>
+    <button class="btn btn-ghost" onclick="scrollToId('example')">Ver el ejemplo</button>
+  </div>
+  <div class="scroll-cue"><span class="line"></span>Scroll</div>
+</section>
+
+<!-- MAP -->
+<section id="map">
+  <div class="section-head">
+    <div class="kicker">El mapa del proceso</div>
+    <h2>Toca cada paso</h2>
+    <p>Cada tarjeta abre el desarrollo completo del paso: qué significa, por qué importa y cómo se aplica.</p>
+  </div>
+  <div class="step-grid" id="stepGrid"></div>
+</section>
+
+<!-- EXAMPLE -->
+<section id="example">
+  <div class="example-card">
+    <span class="badge">Ejemplo aplicado</span>
+    <h3>Andina Retail pierde clientes en la región norte, y nadie sabía por qué</h3>
+    <p style="color:#aab1c8; font-size:14.5px; font-weight:300; line-height:1.6;">Así se ven los 6 pasos aplicados a un caso breve y realista de una cadena retail ficticia.</p>
+    <div class="example-steps" id="exampleSteps"></div>
+    <div class="example-stat-row">
+      <div class="stat-pill"><div class="n">-12%</div><div class="l">clientes activos en la región norte</div></div>
+      <div class="stat-pill"><div class="n">35%</div><div class="l">de los ingresos totales depende de esa región</div></div>
+      <div class="stat-pill"><div class="n">3</div><div class="l">acciones recomendadas al comité</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <h2>Los datos no convencen. <span>Las historias, sí.</span></h2>
+  <p>Aplica los 6 pasos la próxima vez que tengas que presentar un hallazgo: empieza por la audiencia, cierra con una recomendación.</p>
+  <div class="footer-mini">GUÍA INTERACTIVA · DATA STORYTELLING · ESI</div>
+</section>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="num-badge" id="modalNum">1</div>
+    <div class="modal-tag" id="modalTag">Paso</div>
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+    <div class="modal-nav">
+      <button class="nav-btn" onclick="navStep(-1)">← Anterior</button>
+      <button class="nav-btn" onclick="navStep(1)">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    tag:"Paso 1",
+    title:"Comprender a tu audiencia y el contexto",
+    body:`<p>Antes de tocar un dato, hay que responder dos preguntas: quién va a escuchar esta historia y qué decisión necesita tomar. Un directorio ejecutivo quiere el resumen y la acción; un equipo técnico quiere metodología y detalle. Confundir a ambos públicos es uno de los errores más frecuentes al presentar datos.</p>
+    <p>El contexto también importa: la decisión que se está comunicando debe encajar con la visión y la estrategia de la organización, no aparecer como un hallazgo aislado sin conexión con los objetivos del negocio.</p>
+    <div class="modal-quote">Antes de definir KPIs o abrir un dashboard, entiende primero el contexto del negocio y hacia dónde apunta la estrategia.</div>`
+  },
+  {
+    tag:"Paso 2",
+    title:"Encontrar la gran idea",
+    body:`<p>Todo dataset esconde una historia; el trabajo del analista es encontrarla antes de mostrar los números. La gran idea es el insight central, la frase que resume en una línea lo que la audiencia necesita saber.</p>
+    <p>La regla práctica es invertir el orden habitual: en lugar de terminar con la conclusión después de 15 gráficos, se empieza por ella. "Estamos perdiendo 12% de clientes en la región norte y sabemos por qué" dice más en una frase que cualquier tabla dinámica.</p>
+    <div class="modal-quote">Las historias que vale la pena contar ya existen dentro de los datos; encontrarlas es la primera tarea, no la última.</div>`
+  },
+  {
+    tag:"Paso 3",
+    title:"Seleccionar los datos correctos",
+    body:`<p>No se trata de mostrar todo lo disponible, sino de elegir lo que sostiene la gran idea. La calidad importa más que el volumen: datos precisos, actuales y directamente conectados con el mensaje.</p>
+    <p>Conviene combinar fuentes internas (ventas, CRM, tickets de soporte) con fuentes externas cuando aportan contexto real, siempre validando que sean confiables antes de construir la narrativa sobre ellas.</p>
+    <div class="modal-quote">Un dato irrelevante, por más curioso que sea, diluye la historia en lugar de reforzarla.</div>`
+  },
+  {
+    tag:"Paso 4",
+    title:"Diseñar tu visualización",
+    body:`<p>Aquí el hallazgo se traduce en una forma que el ojo procese en segundos. Un buen panel pone lado a lado los indicadores de actuación y de resultado para que las tendencias y anomalías salten a la vista.</p>
+    <p>El error más común es el exceso: demasiados gráficos por diapositiva diluyen el mensaje, y una tabla de 50 filas comunica menos que un solo gráfico de barras bien elegido. Regla práctica: máximo 1 o 2 visualizaciones por diapositiva.</p>
+    <div class="modal-quote">La pregunta no es si el gráfico se ve bien, sino si hace visible el problema en tres segundos.</div>`
+  },
+  {
+    tag:"Paso 5",
+    title:"Crear la narrativa",
+    body:`<p>Es el paso donde el dato se vuelve historia. Cole Nussbaumer Knaflic lo resume en seis movimientos: comprender el contexto, elegir el gráfico correcto, eliminar el ruido visual, dirigir la atención, pensar como diseñador y contar una historia.</p>
+    <p>Estructuralmente, funciona como cualquier narrativa clásica: se plantea una tensión (el "hoyo" del que hablaba Kurt Vonnegut en sus formas de historias) y se muestra el camino hacia la resolución. En términos de negocio: insight → contexto que explica por qué importa → evidencia que lo respalda → recomendación de acción.</p>
+    <div class="modal-quote">Una historia de datos sin tensión ni resolución es solo una lista de hechos con colores.</div>`
+  },
+  {
+    tag:"Paso 6",
+    title:"Refinar y pulir",
+    body:`<p>La primera versión rara vez es la que se presenta. Refinar significa revisar con ojo crítico: quitar cualquier apertura que explique metodología en vez de resultados, confirmar que cada gráfico tenga un propósito, y asegurar que la historia cierre siempre con una recomendación accionable.</p>
+    <p>El ensayo también es parte del pulido: practicar la historia en voz alta, frente a otros o grabándose, revela huecos que no se ven en la pantalla.</p>
+    <div class="modal-quote">Presentar datos sin decir qué hacer con ellos es entregar un trabajo incompleto.</div>`
+  }
+];
+
+const grid = document.getElementById('stepGrid');
+steps.forEach((s,i)=>{
+  const card = document.createElement('div');
+  card.className='step-card';
+  card.onclick=()=>openModal(i);
+  card.innerHTML=`<span class="num">0${i+1}</span><h3>${s.title}</h3><span class="tag">${s.tag}</span><span class="arrow">→</span>`;
+  grid.appendChild(card);
+});
+
+const exampleMap = [
+  "Se define que la historia es para el comité directivo: quiere saber qué está pasando y qué hacer, no el detalle del modelo.",
+  "La gran idea: la región norte concentra el 35% de los ingresos y está perdiendo clientes activos a un ritmo sostenido.",
+  "Se seleccionan solo tres fuentes: churn mensual por región, ticket promedio, y encuestas de salida de clientes.",
+  "Un único gráfico de tendencia de 12 meses, sin tablas adicionales, muestra la caída con claridad.",
+  "La narrativa sigue el arco insight → contexto → evidencia → recomendación, cerrando con tres acciones concretas.",
+  "Se ensaya la presentación dos veces y se recorta de 15 a 5 diapositivas antes de llevarla al comité."
+];
+const exWrap = document.getElementById('exampleSteps');
+exampleMap.forEach((t,i)=>{
+  const row=document.createElement('div');
+  row.className='ex-line';
+  row.innerHTML=`<span class="chip">${i+1}</span><span><b>${steps[i].title}.</b> ${t}</span>`;
+  exWrap.appendChild(row);
+});
+
+let currentStep = 0;
+const overlay = document.getElementById('overlay');
+function openModal(i){
+  currentStep = i;
+  renderModal();
+  overlay.classList.add('active');
+}
+function renderModal(){
+  const s = steps[currentStep];
+  document.getElementById('modalNum').textContent = currentStep+1;
+  document.getElementById('modalTag').textContent = s.tag;
+  document.getElementById('modalTitle').textContent = s.title;
+  document.getElementById('modalBody').innerHTML = s.body;
+}
+function closeModal(){ overlay.classList.remove('active'); }
+function navStep(dir){
+  currentStep = (currentStep + dir + steps.length) % steps.length;
+  renderModal();
+}
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') closeModal();
+  if(overlay.classList.contains('active')){
+    if(e.key==='ArrowRight') navStep(1);
+    if(e.key==='ArrowLeft') navStep(-1);
+  }
+});
+
+function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+// progress bar
+const sections = document.querySelectorAll('section');
+window.addEventListener('scroll', ()=>{
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  const pct = Math.min(100, (scrollTop/docHeight)*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+});
+</script>
+</body>
+</html>
