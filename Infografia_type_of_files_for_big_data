@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infografía CSV & XML en Big Data</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0D0D;
+    --cream:#E0CDBB;
+    --wine:#C0192B;
+    --gray:#8A8178;
+    --gray-dark:#3A3632;
+    --panel:#151311;
+    --line:#2A2723;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Poppins',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{
+    max-width:1080px;
+    margin:0 auto;
+    padding:56px 48px 72px;
+  }
+
+  /* HEADER */
+  header{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+    font-size:13px;
+    letter-spacing:.02em;
+  }
+  header .brand{font-weight:600;color:var(--cream)}
+  header .brand .dot{color:var(--wine);margin-right:8px}
+  header .mid{color:var(--gray)}
+  header .handle{color:var(--gray)}
+
+  /* HERO */
+  .hero{padding:56px 0 40px}
+  .hero .eyebrow{
+    font-size:13px;
+    color:var(--wine);
+    font-weight:600;
+    letter-spacing:.14em;
+    margin-bottom:16px;
+  }
+  .hero h1{
+    font-size:80px;
+    line-height:.94;
+    font-weight:800;
+    letter-spacing:-.02em;
+    text-transform:uppercase;
+  }
+  .hero h1 .amp{color:var(--wine);font-weight:700}
+  .hero p{
+    max-width:62ch;
+    margin-top:22px;
+    color:var(--gray);
+    font-size:15px;
+    text-align:justify;
+  }
+
+  /* FORMAT BLOCK */
+  .format{
+    margin-top:48px;
+    border-top:2px solid var(--wine);
+    padding-top:0;
+  }
+  .format-head{
+    display:flex;
+    align-items:flex-end;
+    gap:24px;
+    padding:28px 0 8px;
+  }
+  .format-head .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--bg);
+    background:var(--cream);
+    padding:4px 10px;
+    font-weight:500;
+    align-self:center;
+  }
+  .format-head h2{
+    font-size:52px;
+    font-weight:800;
+    letter-spacing:-.01em;
+    text-transform:uppercase;
+    line-height:1;
+  }
+  .format-head .sub{
+    margin-left:auto;
+    font-size:13px;
+    color:var(--gray);
+    text-align:right;
+    max-width:26ch;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0;
+    margin-top:24px;
+    border:1px solid var(--line);
+  }
+  .cell{
+    padding:24px 26px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .cell:nth-child(2n){border-right:none}
+  .cell.full{grid-column:1 / -1;border-right:none}
+  .cell h3{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--wine);
+    margin-bottom:12px;
+  }
+  .cell p{font-size:14px;color:var(--cream)}
+  .cell ul{list-style:none;font-size:14px}
+  .cell li{
+    padding-left:18px;
+    position:relative;
+    margin-bottom:7px;
+  }
+  .cell li::before{
+    content:'';
+    position:absolute;
+    left:0;top:10px;
+    width:7px;height:7px;
+    background:var(--wine);
+  }
+  .struct-badge{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    font-weight:500;
+    color:var(--cream);
+    border:1px solid var(--wine);
+    padding:6px 14px;
+    margin-top:2px;
+  }
+  .py-note{
+    font-size:14px;
+    color:var(--gray);
+    font-style:normal;
+    text-align:justify;
+  }
+  .py-note .mono{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--cream);
+    font-size:13px;
+    font-style:normal;
+  }
+
+  /* COMPARATIVE FOOTER */
+  .compare{
+    margin-top:56px;
+    border-top:1px solid var(--line);
+    padding-top:36px;
+  }
+  .compare h2{
+    font-size:26px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    margin-bottom:20px;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  thead th{
+    color:var(--wine);
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    border-bottom:2px solid var(--wine);
+  }
+  tbody th{
+    color:var(--gray);
+    font-weight:500;
+    width:26%;
+  }
+  tbody td{color:var(--cream)}
+
+  footer{
+    margin-top:48px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:var(--gray);
+  }
+
+  @media (max-width:720px){
+    .sheet{padding:32px 22px 48px}
+    .hero h1{font-size:48px}
+    .format-head{flex-wrap:wrap;gap:12px}
+    .format-head h2{font-size:36px}
+    .format-head .sub{margin-left:0;text-align:left}
+    .grid{grid-template-columns:1fr}
+    .cell{border-right:none}
+    header{flex-direction:column;gap:6px}
+  }
+  @media print{
+    body{background:#fff}
+    .sheet{max-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div class="mid">Big Data with Python Types of Files</div>
+    <div class="handle">Marvin Morales  ESI</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">FICHEROS PARA ANÁLISIS DE DATOS</div>
+    <h1>CSV <span class="amp">&amp;</span> XML</h1>
+    <p>Dos formatos que sostienen buena parte del intercambio de datos: uno tabular y minimalista, otro jerárquico y autodescriptivo. Comprender su estructura, usos y límites permite elegir el formato correcto en cada etapa de un pipeline de Big Data y web scraping.</p>
+  </section>
+
+  <!-- CSV -->
+  <section class="format">
+    <div class="format-head">
+      <span class="tag">.csv</span>
+      <h2>Comma-Separated Values</h2>
+      <div class="sub">Datos tabulares en texto plano, una fila por registro</div>
+    </div>
+
+    <div class="grid">
+      <div class="cell">
+        <h3>Definición</h3>
+        <p>Formato de texto plano que organiza datos en filas y columnas separadas por comas o delimitadores alternativos. Cada fila es un registro y cada columna un campo.</p>
+      </div>
+      <div class="cell">
+        <h3>Nivel de estructura</h3>
+        <span class="struct-badge">Estructurado</span>
+        <p style="margin-top:12px;color:var(--gray)">Esquema implícito en la fila de encabezados. Estructura tabular predecible.</p>
+      </div>
+      <div class="cell">
+        <h3>Usos en Big Data / Web Scraping</h3>
+        <ul>
+          <li>Exportación e importación de datos entre sistemas</li>
+          <li>Distribución de datasets públicos (Kaggle, datos abiertos)</li>
+          <li>Entrada a herramientas de BI (Power BI, Tableau)</li>
+          <li>Resultados de scraping: tablas de precios y listados</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h3>Ventajas</h3>
+        <ul>
+          <li>Universalmente legible en cualquier editor</li>
+          <li>Bajo overhead y fácil de generar o parsear</li>
+          <li>Compatible con toda herramienta de análisis</li>
+          <li>Sin dependencias externas</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h3>Limitaciones</h3>
+        <ul>
+          <li>Sin tipo de dato nativo: todo es texto</li>
+          <li>Delimitadores en valores requieren escape</li>
+          <li>No comprimido: ineficiente en gran volumen</li>
+          <li>Encoding variable (UTF-8, Latin-1) genera errores</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h3>Ejemplo con Python</h3>
+        <p class="py-note">Tras un scraping, los datos (producto, precio, disponibilidad) se guardan en una lista de diccionarios. <span class="mono">pandas</span> los convierte en un DataFrame y exporta con <span class="mono">df.to_csv()</span>. Otro script los lee con <span class="mono">pd.read_csv()</span>, limpia nulos y outliers, y envía el resultado a Power BI o a una base SQL.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- XML -->
+  <section class="format">
+    <div class="format-head">
+      <span class="tag">.xml</span>
+      <h2>eXtensible Markup Language</h2>
+      <div class="sub">Datos jerárquicos con etiquetas anidadas y autodescriptivas</div>
+    </div>
+
+    <div class="grid">
+      <div class="cell">
+        <h3>Definición</h3>
+        <p>Lenguaje de marcado que estructura datos mediante etiquetas jerárquicas anidadas y autodescriptivas. Separa el contenido de su presentación y admite validación por esquema.</p>
+      </div>
+      <div class="cell">
+        <h3>Nivel de estructura</h3>
+        <span class="struct-badge">Semi-estructurado</span>
+        <p style="margin-top:12px;color:var(--gray)">Jerarquía de nodos con esquema opcional (DTD, XSD) que permite validar la estructura.</p>
+      </div>
+      <div class="cell">
+        <h3>Usos en Big Data / Web Scraping</h3>
+        <ul>
+          <li>Feeds RSS / Atom de noticias y contenidos</li>
+          <li>Web services SOAP e intercambio entre sistemas</li>
+          <li>Sitemaps para SEO y facturación electrónica</li>
+          <li>Configuración de aplicaciones y sistemas legacy</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h3>Ventajas</h3>
+        <ul>
+          <li>Autodescriptivo y jerárquico por diseño</li>
+          <li>Validación estricta con XSD / DTD</li>
+          <li>Independiente de plataforma; soporta namespaces</li>
+          <li>Amplio soporte en entornos empresariales</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h3>Limitaciones</h3>
+        <ul>
+          <li>Verboso: mucho overhead de etiquetas</li>
+          <li>Archivos más grandes que su equivalente JSON</li>
+          <li>Parsing más lento y con mayor uso de memoria</li>
+          <li>Sintaxis redundante y menos legible</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <h3>Ejemplo con Python</h3>
+        <p class="py-note">Un script usa <span class="mono">xml.etree.ElementTree</span> o <span class="mono">lxml</span> para parsear un feed RSS de noticias. Recorre el árbol de nodos, extrae título, fecha y enlace de cada <span class="mono">&lt;item&gt;</span> y los guarda para análisis. Con <span class="mono">lxml</span> se usan consultas <span class="mono">XPath</span> para navegar directamente a nodos específicos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVE -->
+  <section class="compare">
+    <h2>CSV frente a XML</h2>
+    <table>
+      <thead>
+        <tr><th>Aspecto</th><th>CSV</th><th>XML</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Estructura</th><td>Estructurado (tabular)</td><td>Semi-estructurado (jerárquico)</td></tr>
+        <tr><th>Legibilidad</th><td>Alta y compacta</td><td>Media, verbosa por etiquetas</td></tr>
+        <tr><th>Tamaño del archivo</th><td>Pequeño</td><td>Grande (overhead de tags)</td></tr>
+        <tr><th>Datos anidados</th><td>No los maneja bien</td><td>Nativo y jerárquico</td></tr>
+        <tr><th>Validación de esquema</th><td>No nativa</td><td>Sí (XSD / DTD)</td></tr>
+        <tr><th>Uso típico</th><td>Datasets y exportaciones tabulares</td><td>Feeds, SOAP, config, e-facturas</td></tr>
+        <tr><th>Librería Python</th><td>pandas / csv</td><td>lxml / ElementTree</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <span>Big Data with Python</span>
+    <span>Marvin Omar Morales González — Escuela de Negocios ESI</span>
+  </footer>
+
+</div>
+</body>
+</html>
